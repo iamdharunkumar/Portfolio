@@ -1,6 +1,6 @@
 "use client"
-import { Github, Instagram, Linkedin, Twitter, Facebook, Palette } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Instagram, Linkedin, Github, Facebook, Palette } from "lucide-react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 import { motion, AnimatePresence } from "framer-motion";
 import Loader from "@/components/loader";
@@ -14,14 +14,14 @@ export default function Home() {
   const [isNavigating, setIsNavigating] = useState(false);
 
   // Define 5 color themes
-  const colorThemes = [
+  const colorThemes = useMemo(() => [
     "#cbf65e", // Original green
     "#1E47EB", // Blue
     "#4ecdc4", // Teal
     "#45b7d1", // Blue
-    "#f9ca24" ,//purple
+    "#f9ca24", //purple
     '#7A08D1' // Yellow 
-  ];
+  ], []);
 
   // Define the sequence of texts to type
   const textSequence = [
@@ -30,6 +30,11 @@ export default function Home() {
     "Software Engineer"
   ];
 
+  const updateColor = useCallback((index: number) => {
+    const color = colorThemes[index];
+    document.documentElement.style.setProperty('--overall-color', color);
+  }, [colorThemes]);
+
   useEffect(() => {
     setIsMounted(true);
     // Load saved color preference from localStorage
@@ -37,10 +42,9 @@ export default function Home() {
     if (savedColorIndex) {
       const index = parseInt(savedColorIndex);
       setColorIndex(index);
-      const color = colorThemes[index];
-      document.documentElement.style.setProperty('--overall-color', color);
+      updateColor(index);
     }
-  }, []);
+  }, [updateColor]);
 
   // Handle sequential typing animation
   useEffect(() => {
@@ -55,12 +59,7 @@ export default function Home() {
     }, 3000); // Wait 3 seconds before moving to next text
 
     return () => clearTimeout(timer);
-  }, [currentTextIndex, isMounted]);
-
-  const updateColor = (index: number) => {
-    const color = colorThemes[index];
-    document.documentElement.style.setProperty('--overall-color', color);
-  };
+  }, [currentTextIndex, isMounted, textSequence.length]);
 
   const handleColorChange = () => {
     const newIndex = (colorIndex + 1) % colorThemes.length;
@@ -171,7 +170,7 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                 >
                   <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-300 leading-tight">
-                    I'm Dharunkumar
+                    I&apos;m Dharunkumar
                   </h1>
                 </motion.div>
                 <motion.div 
@@ -220,15 +219,7 @@ export default function Home() {
                       <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[var(--overall-color)] transition-all duration-300 group-hover:w-full"></span>
                     </button>
                   </li>
-                  {/* <li>
-                    <button 
-                      onClick={() => handleNavigation('/resume')}
-                      className="text-gray-400 hover:text-[var(--overall-color)] transition-colors relative group cursor-pointer pb-1.5"
-                    >
-                      Resume
-                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[var(--overall-color)] transition-all duration-300 group-hover:w-full"></span>
-                    </button>
-                  </li> */}
+                  {/*  */}
                   <li>
                     <button 
                       onClick={() => handleNavigation('/contact')}

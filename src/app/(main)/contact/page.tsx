@@ -1,7 +1,7 @@
 "use client";
 
 import SharedLayout from "@/components/shared-layout";
-import { Mail, Phone, MapPin, Share2, User, Clock, Linkedin, Instagram, Facebook, Twitter } from "lucide-react";
+import { Mail, Phone, Share2, User, Linkedin, Instagram, Facebook, Twitter } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ContactPage() {
@@ -58,7 +58,7 @@ export default function ContactPage() {
                       <User className="w-6 h-6 text-[var(--overall-color)]" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-300 mb-2">I'm Based In</h3>
+                      <h3 className="text-lg font-semibold text-gray-300 mb-2">I&apos;m Based In</h3>
                       <div className="flex items-center space-x-2 ">
                       <p className="text-gray-400">Tamilnadu, India</p>
                       <p className="text-gray-400">{currentDateTime}</p>
@@ -146,16 +146,16 @@ export default function ContactPage() {
                   Thanks for stopping by.
                 </p>
                 <p className="text-gray-400 text-lg">
-                  Curious about my work? 💡 Have questions about something you saw in my portfolio? 🖼️ I'm always happy to chat 💬
+                  Curious about my work? 💡 Have questions about something you saw in my portfolio? 🖼️ I&apos;m always happy to chat 💬
                 </p>
                 <p className="text-gray-400 text-lg">
-                  Whether you're just browsing 👀, looking for inspiration ✨, or thinking about how we might collaborate 🤝 feel free to reach out.
+                  Whether you&apos;re just browsing 👀, looking for inspiration ✨, or thinking about how we might collaborate 🤝 feel free to reach out.
                 </p>
                 <p className="text-gray-400 text-lg">
-                  I'd love to hear your thoughts 💭, answer your questions ?, or just connect and exchange ideas 🔄
+                  I&apos;d love to hear your thoughts 💭, answer your questions ?, or just connect and exchange ideas 🔄
                 </p>
                 <p className="text-gray-400 text-lg">
-                  Drop me a message anytime ✉️ — I'm all ears 👂
+                  Drop me a message anytime ✉️ — I&apos;m all ears 👂
                 </p>
               </div>
 

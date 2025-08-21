@@ -1,6 +1,6 @@
 'use client'
-import { ReactNode, useEffect, useState } from "react";
-import { Palette, Home, Grid3X3, ShoppingBag, Bookmark, User } from "lucide-react";
+import { ReactNode, useEffect, useState, useCallback, useMemo } from "react";
+import { Palette, Home, Bookmark, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Great_Vibes } from "next/font/google";
 
@@ -20,13 +20,31 @@ export default function SharedLayout({ children, currentPage }: SharedLayoutProp
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   // Define 5 color themes
-  const colorThemes = [
+  const colorThemes = useMemo(() => [
     "#cbf65e", // Original green
-    "#1E47EB", // Blue
+    "#ff6b6b", // Red
     "#4ecdc4", // Teal
     "#45b7d1", // Blue
-    "#f9ca24" ,//purple
-    '#7A08D1' // Yellow
+    "#f9ca24"  // Yellow
+  ], []);
+
+  const updateColor = useCallback((index: number) => {
+    const color = colorThemes[index];
+    document.documentElement.style.setProperty('--overall-color', color);
+  }, [colorThemes]);
+
+  const handleColorChange = () => {
+    const newIndex = (colorIndex + 1) % colorThemes.length;
+    setColorIndex(newIndex);
+    updateColor(newIndex);
+    // Save preference to localStorage
+    localStorage.setItem('portfolioColorIndex', newIndex.toString());
+  };
+
+  const navItems = [
+    { id: 'home', label: 'Home', icon: Home, href: '/' },
+    { id: 'about', label: 'About', icon: User, href: '/about' },
+    { id: 'contact', label: 'Contact', icon: Bookmark, href: '/contact' },
   ];
 
   useEffect(() => {
@@ -42,25 +60,6 @@ export default function SharedLayout({ children, currentPage }: SharedLayoutProp
     // Trigger page entrance animation
     setIsPageLoaded(true);
   }, []);
-
-  const updateColor = (index: number) => {
-    const color = colorThemes[index];
-    document.documentElement.style.setProperty('--overall-color', color);
-  };
-
-  const handleColorChange = () => {
-    const newIndex = (colorIndex + 1) % colorThemes.length;
-    setColorIndex(newIndex);
-    updateColor(newIndex);
-    // Save preference to localStorage
-    localStorage.setItem('portfolioColorIndex', newIndex.toString());
-  };
-
-  const navItems = [
-    { id: 'home', label: 'Home', icon: Home, href: '/' },
-    { id: 'about', label: 'About', icon: User, href: '/about' },
-    { id: 'contact', label: 'Contact', icon: Bookmark, href: '/contact' },
-  ];
 
   return (
     <div className="min-h-screen bg-black text-gray-300 relative overflow-hidden  lg:mx-25 md:mx-10 mx-5">

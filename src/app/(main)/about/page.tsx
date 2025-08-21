@@ -12,10 +12,7 @@ import {
   Gamepad2,
   Settings,
   Music,
-  Camera,
-  Pencil,
-  Play,
-  Smartphone as Android
+  Pencil
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -144,7 +141,7 @@ export default function AboutPage() {
               </p>
 
               <p>
-                I've designed and delivered <strong className="text-[var(--overall-color)]/80">end-to-end systems</strong> — from 
+                I&apos;ve designed and delivered <strong className="text-[var(--overall-color)]/80">end-to-end systems</strong> — from 
                 <strong className="text-[var(--overall-color)]/80"> database modeling and API design</strong> to 
                 <strong className="text-[var(--overall-color)]/80"> deployment pipelines and performance optimization</strong>. My focus is on crafting solutions that are 
                 <strong className="text-[var(--overall-color)]/80"> secure, resilient, and user-first</strong>.
@@ -153,7 +150,7 @@ export default function AboutPage() {
               <p>
                 With 500+ coding challenges solved across platforms, I bring a 
                 <strong className="text-[var(--overall-color)]/80"> problem-solving mindset, adaptability, and innovation</strong>. 
-                I'm passionate about <strong className="text-[var(--overall-color)]/80">Full-stack development, DevOps, and modern cloud architecture</strong>, 
+                I&apos;m passionate about <strong className="text-[var(--overall-color)]/80">Full-stack development, DevOps, and modern cloud architecture</strong>, 
                 and I believe in building <strong className="text-[var(--overall-color)]/80">impactful, high-performance digital experiences</strong> 🚀
               </p>
             </div>
@@ -166,7 +163,7 @@ export default function AboutPage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="text-[var(--overall-color)]">&gt;</span>
-                  <span>Website: You're already here!</span>
+                  <span>Website: You&apos;re already here!</span>
                 </div>
               </div>
               <div className="space-y-4">
