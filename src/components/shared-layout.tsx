@@ -22,10 +22,11 @@ export default function SharedLayout({ children, currentPage }: SharedLayoutProp
   // Define 5 color themes
   const colorThemes = useMemo(() => [
     "#cbf65e", // Original green
-    "#ff6b6b", // Red
+    "#1E47EB", // Blue
     "#4ecdc4", // Teal
     "#45b7d1", // Blue
-    "#f9ca24"  // Yellow
+    "#f9ca24", //purple
+    '#7A08D1' // Yellow 
   ], []);
 
   const updateColor = useCallback((index: number) => {
