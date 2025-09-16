@@ -104,25 +104,34 @@ export default function Home() {
       </div>
   
       {/* Color Theme Switcher - Bottom Right Corner */}
-      <div className="fixed bottom-8 right-8 z-50 ">
+      <div className="fixed bottom-8 right-8 z-50">
+        {/* Desktop Version */}
         <button
           onClick={handleColorChange}
-          className=" h-10 w-full flex items-center space-x-3 px-4 py-3 bg-tranparent border border-gray-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group"
-          title="Click to change theme color"
+          className="hidden md:flex h-8 w-auto items-center space-x-2 px-3 py-2 bg-black/20 backdrop-blur-sm border border-gray-600/50 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 group"
+          title="Change theme color"
         >
           {/* Palette Icon */}
-          <div className="flex items-center justify-center w-6 h-6">
-            <Palette className="w-5 h-5 text-amber-600" />
+          <div className="flex items-center justify-center w-4 h-4">
+            <Palette className="w-3 h-3 text-amber-500" />
           </div>
           
           {/* Text Label */}
-          <span className="text-gray-300 text-sm font-medium whitespace-nowrap">
-            Change Accent
+          <span className="text-gray-300 text-xs font-medium whitespace-nowrap">
+            Theme
           </span>
           
           {/* Color Indicator Circle */}
-          <div className="w-6 h-6 rounded-full border-2 border-white flex-shrink-0" style={{ backgroundColor: colorThemes[colorIndex] }}></div>
+          <div className="w-4 h-4 rounded-full border border-white/70 flex-shrink-0" style={{ backgroundColor: colorThemes[colorIndex] }}></div>
         </button>
+
+        {/* Mobile Version - Just Circle */}
+        <button
+          onClick={handleColorChange}
+          className="md:hidden w-4 h-4 p-1 rounded-full border border-white/50 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-110"
+          style={{ backgroundColor: colorThemes[colorIndex] }}
+          title="Change theme color"
+        />
       </div>
       
       {/* Home Page Content with Smooth Exit Animation */}
@@ -220,6 +229,15 @@ export default function Home() {
                     </button>
                   </li>
                   {/*  */}
+                  <li>
+                    <button 
+                      onClick={() => handleNavigation('/resume')}
+                        className="text-gray-400 hover:text-[var(--overall-color)] transition-colors relative group cursor-pointer pb-1.5"
+                    >
+                      Resume
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[var(--overall-color)] transition-all duration-300 group-hover:w-full"></span>
+                    </button>
+                  </li>
                   <li>
                     <button 
                       onClick={() => handleNavigation('/contact')}

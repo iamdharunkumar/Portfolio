@@ -1,11 +1,104 @@
 "use client";
 
 import SharedLayout from "@/components/shared-layout";
-import { Mail, Phone, Share2, User, Linkedin, Instagram, Facebook, Twitter } from "lucide-react";
+import { Mail, Phone, Share2, User, Linkedin, Instagram, Facebook, Twitter, Github, CheckCircle, AlertCircle } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface FormStatus {
+  type: 'idle' | 'loading' | 'success' | 'error';
+  message: string;
+}
+
 export default function ContactPage() {
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+  const [formStatus, setFormStatus] = useState<FormStatus>({
+    type: 'idle',
+    message: ''
+  });
   const [currentDateTime, setCurrentDateTime] = useState("");
+
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const validateForm = (): string | null => {
+    if (!formData.name.trim()) return "Name is required";
+    if (!formData.email.trim()) return "Email is required";
+    if (!formData.subject.trim()) return "Subject is required";
+    if (!formData.message.trim()) return "Message is required";
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) return "Please enter a valid email address";
+    
+    return null;
+  };
+
+  const handleSendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const validationError = validateForm();
+    if (validationError) {
+      setFormStatus({
+        type: 'error',
+        message: validationError
+      });
+      return;
+    }
+
+    setFormStatus({ type: 'loading', message: 'Sending message...' });
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setFormStatus({
+          type: 'success',
+          message: 'Message sent successfully! I\'ll get back to you soon.'
+        });
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: ""
+        });
+      } else {
+        setFormStatus({
+          type: 'error',
+          message: result.error || 'Failed to send message. Please try again.'
+        });
+      }
+    } catch (error) {
+      setFormStatus({
+        type: 'error',
+        message: 'Network error. Please check your connection and try again.'
+      });
+    }
+  };
 
   useEffect(() => {
     const updateDateTime = () => {
@@ -95,18 +188,18 @@ export default function ContactPage() {
                         <h3 className="text-lg font-semibold text-gray-300">Social Space</h3>
                       </div>
                       <div className="flex space-x-3">
-                      <button className="cursor-pointer">
-                  <Twitter className="w-5 h-5 text-[var(--overall-color)]" />
-                </button>
-                <button className="cursor-pointer">
-                  <Facebook className="w-5 h-5 text-[var(--overall-color)]" />
-                </button>
-                <button className="cursor-pointer">
-                  <Instagram className="w-5 h-5 text-[var(--overall-color)]" />
-                </button>
-                <button className="cursor-pointer ">
-                  <Linkedin className="w-5 h-5 text-[var(--overall-color)]" />
-                </button>
+                      <Link href="https://www.instagram.com/dharun._72/?igsh=MTRzYjEyNDVieHd5#" target="_blank" rel="noopener noreferrer">
+                  <Instagram className="w-5 h-5 text-[var(--overall-color)] hover:scale-110 transition-transform cursor-pointer" />
+                </Link>
+                <Link href="https://www.linkedin.com/in/iamdharunkumar" target="_blank" rel="noopener noreferrer">
+                  <Linkedin className="w-5 h-5 text-[var(--overall-color)] hover:scale-110 transition-transform cursor-pointer" />
+                </Link>
+                <Link href="https://github.com/iamdharunkumar" target="_blank" rel="noopener noreferrer">
+                  <Github className="w-5 h-5 text-[var(--overall-color)] hover:scale-110 transition-transform cursor-pointer" />
+                </Link>
+                <Link href="https://www.facebook.com/dharun.kumar.722" target="_blank" rel="noopener noreferrer">
+                  <Facebook className="w-5 h-5 text-[var(--overall-color)] hover:scale-110 transition-transform cursor-pointer" />
+                </Link>
                       </div>
                     </div>
                   </div>
@@ -161,48 +254,81 @@ export default function ContactPage() {
 
               {/* Right Column - Contact Form */}
               <div className="space-y-6">
-                <form className="space-y-6">
+                {/* Status Message */}
+                {formStatus.type !== 'idle' && (
+                  <div className={`p-4 rounded-lg flex items-center space-x-3 ${
+                    formStatus.type === 'success' 
+                      ? 'bg-green-900/20 border border-green-700 text-green-300' 
+                      : formStatus.type === 'error'
+                      ? 'bg-red-900/20 border border-red-700 text-red-300'
+                      : 'bg-blue-900/20 border border-blue-700 text-blue-300'
+                  }`}>
+                    {formStatus.type === 'success' ? (
+                      <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                    ) : formStatus.type === 'error' ? (
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                    ) : (
+                      <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin flex-shrink-0"></div>
+                    )}
+                    <span className="text-sm">{formStatus.message}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleSendMessage} className="space-y-6">
                   <div>
-                                          <input
-                        type="text"
-                        name="name"
-                        className="w-full px-4 py-3 bg-transparent border-b border-gray-700 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-b-[var(--overall-color)] transition-colors"
-                        placeholder="Your Name"
-                      />
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      className="w-full px-4 py-3 bg-transparent border-b border-gray-700 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-b-[var(--overall-color)] transition-colors"
+                      placeholder="Your Name"
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      disabled={formStatus.type === 'loading'}
+                    />
                   </div>
                   
                   <div>
-                                          <input
-                        type="email"
-                        name="email"
-                        className="w-full px-4 py-3 bg-transparent border-b border-gray-700 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-b-[var(--overall-color)] transition-colors"
-                        placeholder="Your Email"
-                      />
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      className="w-full px-4 py-3 bg-transparent border-b border-gray-700 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-b-[var(--overall-color)] transition-colors"
+                      placeholder="Your Email"
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      disabled={formStatus.type === 'loading'}
+                    />
                   </div>
                   
                   <div>
-                                          <input
-                        type="text"
-                        name="subject"
-                        className="w-full px-4 py-3 bg-transparent border-b border-gray-700 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-b-[var(--overall-color)] transition-colors"
-                        placeholder="Subject"
-                      />
+                    <input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      className="w-full px-4 py-3 bg-transparent border-b border-gray-700 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-b-[var(--overall-color)] transition-colors"
+                      placeholder="Subject"
+                      onChange={(e) => handleInputChange('subject', e.target.value)}
+                      disabled={formStatus.type === 'loading'}
+                    />
                   </div>
                   
                   <div>
-                                          <textarea
-                        name="message"
-                        rows={6}
-                        className="w-full px-4 py-3 bg-transparent border-b border-gray-700 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-b-[var(--overall-color)] transition-colors resize-none"
-                        placeholder="Message"
-                      ></textarea>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      rows={6}
+                      className="w-full px-4 py-3 bg-transparent border-b border-gray-700 text-gray-300 placeholder-gray-500 focus:outline-none focus:border-b-[var(--overall-color)] transition-colors resize-none"
+                      placeholder="Message"
+                      onChange={(e) => handleInputChange('message', e.target.value)}
+                      disabled={formStatus.type === 'loading'}
+                    ></textarea>
                   </div>
                   
                   <button
                     type="submit"
-                    className="w-full px-6 py-3 bg-[var(--overall-color)] text-black font-semibold rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105"
+                    disabled={formStatus.type === 'loading'}
+                    className="w-full px-6 py-3 bg-[var(--overall-color)] text-black font-semibold rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    Send Message
+                    {formStatus.type === 'loading' ? 'Sending...' : 'Send Message'}
                   </button>
                 </form>
               </div>
