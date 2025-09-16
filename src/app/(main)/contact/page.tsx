@@ -1,7 +1,7 @@
 "use client";
 
 import SharedLayout from "@/components/shared-layout";
-import { Mail, Phone, Share2, User, Linkedin, Instagram, Facebook, Twitter, Github, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, Phone, Share2, User, Linkedin, Instagram, Facebook, Github, CheckCircle, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -92,7 +92,7 @@ export default function ContactPage() {
           message: result.error || 'Failed to send message. Please try again.'
         });
       }
-    } catch (error) {
+    } catch {
       setFormStatus({
         type: 'error',
         message: 'Network error. Please check your connection and try again.'

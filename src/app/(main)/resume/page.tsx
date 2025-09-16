@@ -5,21 +5,15 @@ import {
   ArrowDownToLineIcon, 
   Briefcase, 
   GraduationCap, 
-  Code, 
   Trophy, 
   MapPin, 
   Calendar,
   ExternalLink,
   Star,
-  Award,
   Users,
   Target,
-  Zap,
-  Database,
   Globe,
-  Smartphone,
-  Shield,
-  GitBranch
+  Shield
 } from "lucide-react";
 import { useState, useEffect } from "react";
 

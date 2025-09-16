@@ -20,11 +20,6 @@ const nextConfig: NextConfig = {
     ];
   },
   
-  // Enable experimental features for better performance
-  experimental: {
-    optimizeCss: true,
-  },
-  
   // Optimize images and static assets
   images: {
     formats: ['image/webp', 'image/avif'],
