@@ -1,7 +1,34 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Optimize video loading and caching
+  async headers() {
+    return [
+      {
+        source: '/v2.mp4',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Content-Type',
+            value: 'video/mp4',
+          },
+        ],
+      },
+    ];
+  },
+  
+  // Enable experimental features for better performance
+  experimental: {
+    optimizeCss: true,
+  },
+  
+  // Optimize images and static assets
+  images: {
+    formats: ['image/webp', 'image/avif'],
+  },
 };
 
 export default nextConfig;

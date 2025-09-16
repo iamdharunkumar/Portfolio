@@ -21,6 +21,7 @@ export default function SharedLayout({ children, currentPage }: SharedLayoutProp
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   // Define 5 color themes
   const colorThemes = useMemo(() => [
@@ -110,12 +111,26 @@ export default function SharedLayout({ children, currentPage }: SharedLayoutProp
       
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
+        {/* Video Loading Overlay */}
+        {!isVideoLoaded && (
+          <div className="absolute inset-0 bg-black flex items-center justify-center z-10">
+            <Loader size="md" className="text-[var(--overall-color)]" />
+          </div>
+        )}
+        
         <video 
           autoPlay 
           loop 
           muted 
           playsInline
-          className="w-full h-full object-cover"
+          preload="auto"
+          className={`w-full h-full object-cover transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
+          onLoadedData={() => setIsVideoLoaded(true)}
+          onCanPlay={() => setIsVideoLoaded(true)}
+          onError={(e) => {
+            console.error('Video error:', e);
+            setIsVideoLoaded(true); // Show content even if video fails
+          }}
         >
           <source src="/v2.mp4" type="video/mp4" />
         </video>
